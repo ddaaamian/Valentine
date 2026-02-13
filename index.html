@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hey</title>
+<title>For You</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
 
@@ -20,64 +20,73 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background: linear-gradient(135deg,#f8f9fa,#e9ecef);
-    transition: background 0.8s ease;
+    background: linear-gradient(135deg,#fdf2f8,#f8fafc);
+    transition: background 1s ease;
 }
 
 .container{
     text-align:center;
     width:90%;
-    max-width:400px;
-    transition: all 0.4s ease;
+    max-width:420px;
+    transition: all 0.5s ease;
 }
 
 h1{
     font-size:1.6rem;
     margin-bottom:20px;
     color:#222;
+    opacity:0;
+    transform:translateY(20px);
+    animation:fadeUp 1s forwards;
+}
+
+@keyframes fadeUp{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 input{
     width:100%;
     padding:12px;
-    border-radius:25px;
-    border:1px solid #ccc;
+    border-radius:30px;
+    border:1px solid #ddd;
     text-align:center;
-    font-size:0.95rem;
     margin-bottom:15px;
-    transition:0.3s ease;
+    transition:0.3s;
 }
 
 input:focus{
     outline:none;
-    border-color:#111;
+    border-color:#ff6b9a;
+    box-shadow:0 0 10px rgba(255,107,154,0.2);
 }
 
 button{
     padding:10px 28px;
-    border-radius:25px;
+    border-radius:30px;
     border:none;
-    background:#111;
-    color:white;
     cursor:pointer;
-    transition: all 0.25s ease;
+    transition:0.3s ease;
+    font-size:0.95rem;
+}
+
+.primary{
+    background:#ff6b9a;
+    color:white;
+}
+
+.secondary{
+    background:white;
+    color:#333;
+    border:1px solid #ddd;
+    position:absolute;
 }
 
 button:hover{
     transform:translateY(-2px);
     box-shadow:0 8px 20px rgba(0,0,0,0.08);
-}
-
-.secondary{
-    background:white;
-    color:#111;
-    border:1px solid #ddd;
-    position:absolute;
-}
-
-.buttons{
-    position:relative;
-    margin-top:25px;
 }
 
 .hidden{
@@ -93,36 +102,39 @@ button:hover{
     min-height:18px;
 }
 
+.buttons{
+    position:relative;
+    margin-top:25px;
+}
+
 .success-text{
-    font-size:1.3rem;
-    color:#111;
+    font-size:1.4rem;
+    color:#222;
+    line-height:1.6;
 }
 </style>
 </head>
 <body>
 
-<!-- STEP 1: Input Nama -->
 <div class="container" id="nameStep">
-    <h1>Masukin nama kamu dulu</h1>
+    <h1>Masukin nama kamu dulu ya</h1>
     <input type="text" id="nameInput" placeholder="Tulis nama lengkap...">
-    <button onclick="validateName()">Lanjut</button>
+    <button class="primary" onclick="validateName()">Lanjut</button>
     <div id="error"></div>
 </div>
 
-<!-- STEP 2: Pertanyaan -->
 <div class="container hidden" id="questionStep">
     <h1 id="questionText"></h1>
     <div class="buttons">
-        <button id="yes">Yes</button>
+        <button id="yes" class="primary">Yes</button>
         <button id="no" class="secondary">No</button>
     </div>
 </div>
 
-<!-- STEP 3: Ending -->
 <div class="container hidden" id="successStep">
     <div class="success-text" id="finalText"></div>
     <br><br>
-    <button onclick="location.reload()">Restart</button>
+    <button onclick="location.reload()" class="primary">Restart</button>
 </div>
 
 <script>
@@ -148,33 +160,32 @@ function validateName(){
         setTimeout(()=>{
             document.getElementById("questionStep").classList.remove("hidden");
             document.getElementById("questionText").innerText =
-                "Hi " + input + ", would you be my Valentine?";
+                "Hi " + input + ", aku cuma mau tanya satu hal kecil...";
         },400);
 
     } else {
-        error.innerText = "Nama tidak dikenali.";
+        error.innerText = "Kayaknya itu bukan namanya deh.";
     }
 }
 
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 
-// Tombol No smooth kabur
 noBtn.addEventListener("mouseenter", () => {
-    const x = Math.random() * 180 - 90;
-    const y = Math.random() * 80 - 40;
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 100 - 50;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
-// Klik Yes
 yesBtn.addEventListener("click", () => {
     document.getElementById("questionStep").classList.add("hidden");
 
     setTimeout(()=>{
         document.getElementById("successStep").classList.remove("hidden");
-        document.getElementById("finalText").innerText = "Good choice.";
+        document.getElementById("finalText").innerHTML =
+            "Makasih ya.<br><br>Berarti mulai sekarang, kita resmi satu tim.<br>Pelan-pelan aja, tapi bareng.";
         document.body.style.background =
-            "linear-gradient(135deg,#ffe8f0,#f1f3f5)";
+            "linear-gradient(135deg,#ffe4ec,#f8f9fa)";
     },400);
 });
 </script>
