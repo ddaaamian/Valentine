@@ -25,26 +25,16 @@ body{
 }
 
 .container{
-    text-align:center;
-    width:90%;
+    width:100%;
     max-width:420px;
-    transition: all 0.5s ease;
+    text-align:center;
+    padding:20px;
 }
 
 h1{
-    font-size:1.6rem;
+    font-size:1.4rem;
     margin-bottom:20px;
     color:#222;
-    opacity:0;
-    transform:translateY(20px);
-    animation:fadeUp 1s forwards;
-}
-
-@keyframes fadeUp{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
 
 input{
@@ -54,7 +44,6 @@ input{
     border:1px solid #ddd;
     text-align:center;
     margin-bottom:15px;
-    transition:0.3s;
 }
 
 input:focus{
@@ -70,6 +59,7 @@ button{
     cursor:pointer;
     transition:0.3s ease;
     font-size:0.95rem;
+    margin:8px;
 }
 
 .primary{
@@ -90,9 +80,7 @@ button:hover{
 }
 
 .hidden{
-    opacity:0;
-    transform:scale(0.95);
-    pointer-events:none;
+    display:none;
 }
 
 #error{
@@ -104,18 +92,19 @@ button:hover{
 
 .buttons{
     position:relative;
-    margin-top:25px;
+    height:60px;
 }
 
 .success-text{
-    font-size:1.4rem;
-    color:#222;
+    font-size:1.2rem;
     line-height:1.6;
+    color:#111;
 }
 </style>
 </head>
 <body>
 
+<!-- STEP 1 -->
 <div class="container" id="nameStep">
     <h1>Masukin nama kamu dulu ya</h1>
     <input type="text" id="nameInput" placeholder="Tulis nama lengkap...">
@@ -123,6 +112,7 @@ button:hover{
     <div id="error"></div>
 </div>
 
+<!-- STEP 2 -->
 <div class="container hidden" id="questionStep">
     <h1 id="questionText"></h1>
     <div class="buttons">
@@ -131,9 +121,27 @@ button:hover{
     </div>
 </div>
 
+<!-- STEP 3 -->
 <div class="container hidden" id="successStep">
     <div class="success-text" id="finalText"></div>
-    <br><br>
+
+    <div id="extraSection" style="margin-top:30px; opacity:0; transition:1s;">
+        <h3 style="margin-bottom:10px;">Why?</h3>
+        <p style="font-size:0.9rem; line-height:1.6; color:#444;">
+            Because you deserve someone who stays calm when things get messy,
+            someone who listens more than they react,
+            and someone who doesn’t disappear when things get hard.
+            <br><br>
+            I may not always have the perfect words,
+            but I’ll always have honest intentions.
+        </p>
+
+        <p style="margin-top:20px; font-size:0.8rem; color:#777;">
+            — from someone who genuinely cares
+        </p>
+    </div>
+
+    <br>
     <button onclick="location.reload()" class="primary">Restart</button>
 </div>
 
@@ -156,13 +164,9 @@ function validateName(){
 
     if(allowedNames.includes(normalized)){
         document.getElementById("nameStep").classList.add("hidden");
-
-        setTimeout(()=>{
-            document.getElementById("questionStep").classList.remove("hidden");
-            document.getElementById("questionText").innerText =
-                "Hi " + input + ", aku cuma mau tanya satu hal kecil...";
-        },400);
-
+        document.getElementById("questionStep").classList.remove("hidden");
+        document.getElementById("questionText").innerText =
+            "Hi " + input + ", boleh aku stay di hidup kamu lebih lama?";
     } else {
         error.innerText = "Kayaknya itu bukan namanya deh.";
     }
@@ -171,22 +175,35 @@ function validateName(){
 const yesBtn = document.getElementById("yes");
 const noBtn = document.getElementById("no");
 
+// No button kabur smooth
 noBtn.addEventListener("mouseenter", () => {
     const x = Math.random() * 200 - 100;
     const y = Math.random() * 100 - 50;
     noBtn.style.transform = `translate(${x}px, ${y}px)`;
 });
 
+// Yes clicked
 yesBtn.addEventListener("click", () => {
     document.getElementById("questionStep").classList.add("hidden");
+    document.getElementById("successStep").classList.remove("hidden");
+
+    document.getElementById("finalText").innerHTML =
+        "I will always care about you.<br><br>" +
+        "I will try to understand you, even on your quiet days,<br>" +
+        "even when you don’t know how to explain what you’re feeling.<br><br>" +
+        "I might not be perfect,<br>" +
+        "but I promise I’ll never stop trying to be better for you.<br><br>" +
+        "When things get heavy,<br>" +
+        "you won’t have to carry it alone.<br><br>" +
+        "And as long as you let me,<br>" +
+        "I’ll stay gentle with your heart.";
+
+    document.body.style.background =
+        "linear-gradient(135deg,#ffe4ec,#f8f9fa)";
 
     setTimeout(()=>{
-        document.getElementById("successStep").classList.remove("hidden");
-        document.getElementById("finalText").innerHTML =
-            "Makasih ya.<br><br>Berarti mulai sekarang, kita resmi satu tim.<br>Pelan-pelan aja, tapi bareng.";
-        document.body.style.background =
-            "linear-gradient(135deg,#ffe4ec,#f8f9fa)";
-    },400);
+        document.getElementById("extraSection").style.opacity = "1";
+    },1200);
 });
 </script>
 
